@@ -4,7 +4,7 @@
 // All rights reserved.
 // Solution: Monocraft
 // Project: Monocraft
-// Filename: TerrainGeneratorTyp.cs
+// Filename: WorldGeneratorTyp.cs
 // Date - created: 2016.06.22 - 10:08
 // Date - current: 2016.06.24 - 13:09
 
@@ -12,9 +12,9 @@
 
 namespace Monocraft.World.Generator.World
 {
-    public enum TerrainGeneratorTyp
+    public enum WorldGeneratorTyp
     {
-        None,
-        PerlinNoise
+        Flat,
+        Noisy
     }
 }

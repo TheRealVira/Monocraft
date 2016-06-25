@@ -70,7 +70,7 @@
     <Compile Include="World\Frames\FrameManager.cs" />
     <Compile Include="World\Frames\FrameFormat.cs" />
     <Compile Include="World\Frames\VisFrame.cs" />
-    <Compile Include="World\Generator\World\TerrainGeneratorTyp.cs" />
+    <Compile Include="World\Generator\World\WorldGeneratorTyp.cs" />
     <Compile Include="World\Generator\World\WorldGenerator.cs" />
     <Compile Include="World\Generator\World\WorldGeneratorFormat.cs" />
     <Compile Include="World\Generator\World\WorldGeneratorManager.cs" />

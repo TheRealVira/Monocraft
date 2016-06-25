@@ -31,7 +31,7 @@ namespace Monocraft.World.Generator.World
             WorldGenerators = new Dictionary<string, WorldGenerator>();
 
             //var test = new Dictionary<string, WorldGeneratorFormat>();
-            //test.Add("Wood", new WorldGeneratorFormat() {ColumnData = new List<FrameHeight>() { new FrameHeight() { Frame = "Sun", Height = 1 }, new FrameHeight() {Frame = "Dirt", Height=0},new FrameHeight() {Frame = "Gras",Height=1} }, MaxHeight = 5, MinHeight = 5, TGType = TerrainGeneratorTyp.None});
+            //test.Add("Wood", new WorldGeneratorFormat() {ColumnData = new List<FrameHeight>() { new FrameHeight() { Frame = "Sun", Height = 1 }, new FrameHeight() {Frame = "Dirt", Height=0},new FrameHeight() {Frame = "Gras",Height=1} }, MaxHeight = 5, MinHeight = 5, TGType = WorldGeneratorTyp.None});
             //JsonParser<WorldGeneratorFormat>.SaveObjects(test, Directory.GetCurrentDirectory() + "\\Content\\WorldGenerators");
             foreach (
                 var frameFormat in

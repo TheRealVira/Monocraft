@@ -22,7 +22,7 @@ namespace Monocraft.World.Generator.World
     {
         public int MaxHeight { get; set; }
         public int MinHeight { get; set; }
-        public TerrainGeneratorTyp TGType { get; set; }
+        public WorldGeneratorTyp TGType { get; set; }
 
         /// <summary>
         ///     Key = int or * (Represents how many blocks should be together

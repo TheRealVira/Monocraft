@@ -27,13 +27,13 @@ namespace Monocraft.World.Generator.World
         private readonly List<FrameHeight> _columnData;
         private readonly int _maxHeight;
         private readonly int _minHeight;
-        private readonly TerrainGeneratorTyp _tgType; // May be removed
+        private readonly WorldGeneratorTyp _tgType; // May be removed
         private readonly int BottomFramesHeightTogether; // May be removed
 
         public readonly GenerateD Generate;
         private readonly int UpperFramesHeightTogether;
 
-        public WorldGenerator(int maxHeight, int minHeight, TerrainGeneratorTyp tgType,
+        public WorldGenerator(int maxHeight, int minHeight, WorldGeneratorTyp tgType,
             List<FrameHeight> columnData)
         {
             _tgType = tgType;
@@ -81,7 +81,7 @@ namespace Monocraft.World.Generator.World
 
             switch (tgType)
             {
-                case TerrainGeneratorTyp.PerlinNoise:
+                case WorldGeneratorTyp.Noisy:
                     Generate = PerlinNoiseGenration;
                     break;
 
