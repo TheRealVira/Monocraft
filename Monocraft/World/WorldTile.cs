@@ -6,7 +6,7 @@
 // Project: Monocraft
 // Filename: WorldTile.cs
 // Date - created: 2016.06.19 - 11:23
-// Date - current: 2016.06.24 - 13:09
+// Date - current: 2016.06.25 - 18:38
 
 #endregion
 
@@ -14,7 +14,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monocraft.World.Frames;
@@ -28,6 +27,15 @@ namespace Monocraft.World
     {
         public const int WORLD_TILE_WIDTH = 16;
         public const int WORLD_TILE_HEIGHT = 256;
+
+        // Initialize an array of indices for the box. 12 lines require 24 indices
+        private static readonly short[] BBoxIndices =
+        {
+            0, 1, 1, 2, 2, 3, 3, 0, // Front edges
+            4, 5, 5, 6, 6, 7, 7, 4, // Back edges
+            0, 4, 1, 5, 2, 6, 3, 7 // Side edges connecting front and back
+        };
+
         public readonly VisFrame[,,] Frames;
         public readonly WorldTile[] Neighbours;
         public readonly Vector3 Position;
@@ -59,16 +67,20 @@ namespace Monocraft.World
         /// <param name="view">The view.</param>
         /// <param name="cameraFrustum"></param>
         /// <param name="deepness"></param>
-        public void Draw(GraphicsDevice device, Matrix projection, Matrix view, BoundingFrustum cameraFrustum, byte deepness = 2)
+        public void Draw(GraphicsDevice device, Matrix projection, Matrix view, BoundingFrustum cameraFrustum,
+            byte deepness = 2)
         {
-            device.RasterizerState = new RasterizerState { FillMode = FillMode.Solid };
+            device.RasterizerState = new RasterizerState {FillMode = FillMode.Solid};
             for (var x = 0; x < Frames.GetLength(0); x++)
             {
                 for (var y = 0; y < Frames.GetLength(1); y++)
                 {
                     for (var z = 0; z < Frames.GetLength(2); z++)
                     {
-                        if (Frames[x, y, z].Visible&&cameraFrustum.Contains(new Vector3(x+this.Position.X,y+this.Position.Y,z+this.Position.Z))!=ContainmentType.Disjoint/* ||cameraFrustum.Contains(new Vector3(x + Frames[x, y, z].Frame.Width+Position.X, y + Frames[x, y, z].Frame.Height+Position.Y, z+Frames[x,y,z].Frame.Depth + Position.Z)) != ContainmentType.Disjoint*/)
+                        if (Frames[x, y, z].Visible &&
+                            cameraFrustum.Contains(new Vector3(x + Position.X, y + Position.Y, z + Position.Z)) !=
+                            ContainmentType.Disjoint
+                            /* ||cameraFrustum.Contains(new Vector3(x + Frames[x, y, z].Frame.Width+Position.X, y + Frames[x, y, z].Frame.Height+Position.Y, z+Frames[x,y,z].Frame.Depth + Position.Z)) != ContainmentType.Disjoint*/)
                         {
                             Frames[x, y, z].Frame.Draw(device, projection, view,
                                 new Vector3(Position.X + x, Position.Y + y, Position.Z + z));
@@ -78,12 +90,12 @@ namespace Monocraft.World
             }
 
 #if (DEBUG)
-            var vase=new BasicEffect(device);
-            Vector3[] corners = this.Trigger.GetCorners();
-            VertexPositionColor[] primitiveList = new VertexPositionColor[corners.Length];
+            var vase = new BasicEffect(device);
+            var corners = Trigger.GetCorners();
+            var primitiveList = new VertexPositionColor[corners.Length];
 
             // Assign the 8 box vertices
-            for (int i = 0; i < corners.Length; i++)
+            for (var i = 0; i < corners.Length; i++)
             {
                 primitiveList[i] = new VertexPositionColor(corners[i], Color.Red);
             }
@@ -97,7 +109,7 @@ namespace Monocraft.World
             vase.TextureEnabled = false;
 
             // Draw the box with a LineList
-            foreach (EffectPass pass in vase.CurrentTechnique.Passes)
+            foreach (var pass in vase.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 device.DrawUserIndexedPrimitives(
@@ -111,18 +123,10 @@ namespace Monocraft.World
             {
                 if (Neighbours[i] != null)
                 {
-                    Neighbours[i].Draw(device, projection, view, cameraFrustum, (byte)(deepness - 1));
+                    Neighbours[i].Draw(device, projection, view, cameraFrustum, (byte) (deepness - 1));
                 }
             }
         }
-
-        // Initialize an array of indices for the box. 12 lines require 24 indices
-        private static readonly short[] BBoxIndices =
-        {
-            0, 1, 1, 2, 2, 3, 3, 0, // Front edges
-            4, 5, 5, 6, 6, 7, 7, 4, // Back edges
-            0, 4, 1, 5, 2, 6, 3, 7 // Side edges connecting front and back
-        };
 
         /// <summary>
         ///     Updates the visibility.
@@ -157,8 +161,8 @@ namespace Monocraft.World
                             }
                             else
                             {
-                                temp[x, y, z] = true;
-                                continue;
+                                temp[x, y, z] = false;
+                                //continue;
                             }
                         }
                         else
@@ -175,8 +179,8 @@ namespace Monocraft.World
                             }
                             else
                             {
-                                temp[x, y, z] = true;
-                                continue;
+                                temp[x, y, z] = false;
+                                //continue;
                             }
                         }
                         else
@@ -193,8 +197,8 @@ namespace Monocraft.World
                             }
                             else
                             {
-                                temp[x, y, z] = true;
-                                continue;
+                                temp[x, y, z] = false;
+                                //continue;
                             }
                         }
                         else
@@ -211,8 +215,8 @@ namespace Monocraft.World
                             }
                             else
                             {
-                                temp[x, y, z] = true;
-                                continue;
+                                temp[x, y, z] = false;
+                                //continue;
                             }
                         }
                         else

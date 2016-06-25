@@ -6,7 +6,7 @@
 // Project: Monocraft
 // Filename: FrameFormat.cs
 // Date - created: 2016.06.18 - 20:15
-// Date - current: 2016.06.24 - 13:09
+// Date - current: 2016.06.25 - 18:38
 
 #endregion
 

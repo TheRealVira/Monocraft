@@ -6,7 +6,7 @@
 // Project: Monocraft
 // Filename: World.cs
 // Date - created: 2016.06.18 - 23:28
-// Date - current: 2016.06.24 - 13:09
+// Date - current: 2016.06.25 - 18:38
 
 #endregion
 
@@ -16,6 +16,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Monocraft.Basics;
 using Monocraft.World.Generator.World;
 
 #endregion
@@ -228,15 +229,22 @@ namespace Monocraft.World
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice device)
         {
             if (Game1.STOPP_WORKING) return; // Just, so we dont' run into some disposed objects
+            
+            var test = PerlinNoise.GeneratePerlinNoiseGPU(new Vector3(Game1.time, 0, 0),this._currentPlayer.Cam.View,this._currentPlayer.Cam.Projektion,device,spriteBatch);
 
-            device.BlendState = BlendState.Opaque;
-            device.DepthStencilState = DepthStencilState.Default;
-            device.RasterizerState = RasterizerState.CullCounterClockwise;
-            device.SamplerStates[0] = SamplerState.LinearWrap;
-            CurrentWorldTile.Draw(device, _currentPlayer.Cam.Projektion, _currentPlayer.Cam.View, new BoundingFrustum(_currentPlayer.Cam.View* (_currentPlayer.Cam.Projektion* Matrix.CreateScale(1))));
+            spriteBatch.Begin();
+            spriteBatch.Draw(test, null, new Rectangle(0, 0, device.Adapter.CurrentDisplayMode.Width, device.Adapter.CurrentDisplayMode.Height));
+            spriteBatch.End();
 
-            //device.RasterizerState = new RasterizerState() { FillMode = FillMode.WireFrame, CullMode = CullMode.None};
-            _currentPlayer.Draw(spriteBatch, device);
+            //device.BlendState = BlendState.Opaque;
+            //device.DepthStencilState = DepthStencilState.Default;
+            //device.RasterizerState = RasterizerState.CullCounterClockwise;
+            //device.SamplerStates[0] = SamplerState.LinearWrap;
+            //CurrentWorldTile.Draw(device, _currentPlayer.Cam.Projektion, _currentPlayer.Cam.View,
+            //    new BoundingFrustum(_currentPlayer.Cam.View*(_currentPlayer.Cam.Projektion*Matrix.CreateScale(1))));
+
+            ////device.RasterizerState = new RasterizerState() { FillMode = FillMode.WireFrame, CullMode = CullMode.None};
+            //_currentPlayer.Draw(spriteBatch, device);
         }
 
         /// <summary>

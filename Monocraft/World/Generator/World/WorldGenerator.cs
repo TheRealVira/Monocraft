@@ -6,7 +6,7 @@
 // Project: Monocraft
 // Filename: WorldGenerator.cs
 // Date - created: 2016.06.22 - 09:55
-// Date - current: 2016.06.24 - 13:09
+// Date - current: 2016.06.25 - 18:38
 
 #endregion
 
@@ -96,13 +96,16 @@ namespace Monocraft.World.Generator.World
         {
             var grid = new Color[WorldTile.WORLD_TILE_WIDTH*WorldTile.WORLD_TILE_WIDTH*PerlinNoise.RESOLUTION];
             //PerlinNoise.CreateStaticMap(WorldTile.WORLD_TILE_WIDTH, device);
-            PerlinNoise.GeneratePerlinNoiseGPU(position.X*position.Y, device, sp).GetData(grid);
+            PerlinNoise.GeneratePerlinNoiseGPU(position,Matrix.CreateLookAt(Vector3.Zero, Vector3.Zero, Vector3.Up), Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f), device.Viewport.AspectRatio,
+                0.1f, 1000.0f),  device, sp).GetData(grid);
 
             for (var x = 0; x < frames.GetLength(0); x++)
             {
                 for (var z = 0; z < frames.GetLength(2); z++)
                 {
-                    var highest = grid[x*z*PerlinNoise.RESOLUTION].R < this._minHeight ? this._minHeight : grid[x*z*PerlinNoise.RESOLUTION].R;
+                    var highest = grid[x*z*PerlinNoise.RESOLUTION].R < _minHeight
+                        ? _minHeight
+                        : grid[x*z*PerlinNoise.RESOLUTION].R;
                     var currentIndex = 0;
                     var counter = 0;
 
@@ -197,9 +200,9 @@ namespace Monocraft.World.Generator.World
             }
         }
 
-        //private void ApplyVis(VisFrame[,,] Frames, List<WorldTile> neighbours)
+        //}
         //{
 
-        //}
+        //private void ApplyVis(VisFrame[,,] Frames, List<WorldTile> neighbours)
     }
 }

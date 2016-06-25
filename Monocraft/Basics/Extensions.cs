@@ -6,12 +6,16 @@
 // Project: Monocraft
 // Filename: Extensions.cs
 // Date - created: 2016.06.22 - 10:56
-// Date - current: 2016.06.24 - 13:09
+// Date - current: 2016.06.25 - 18:38
 
 #endregion
 
+#region Usings
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+#endregion
 
 namespace Monocraft.Basics
 {
@@ -20,22 +24,22 @@ namespace Monocraft.Basics
         public static BoundingBox BuildBoundingBox(this ModelMesh mesh, Matrix meshTransform)
         {
             // Create initial variables to hold min and max xyz values for the mesh
-            Vector3 meshMax = new Vector3(float.MinValue);
-            Vector3 meshMin = new Vector3(float.MaxValue);
+            var meshMax = new Vector3(float.MinValue);
+            var meshMin = new Vector3(float.MaxValue);
 
-            foreach (ModelMeshPart part in mesh.MeshParts)
+            foreach (var part in mesh.MeshParts)
             {
                 // The stride is how big, in bytes, one vertex is in the vertex buffer
                 // We have to use this as we do not know the make up of the vertex
-                int stride = part.VertexBuffer.VertexDeclaration.VertexStride;
+                var stride = part.VertexBuffer.VertexDeclaration.VertexStride;
 
-                VertexPositionNormalTexture[] vertexData = new VertexPositionNormalTexture[part.NumVertices];
-                part.VertexBuffer.GetData(part.VertexOffset * stride, vertexData, 0, part.NumVertices, stride);
+                var vertexData = new VertexPositionNormalTexture[part.NumVertices];
+                part.VertexBuffer.GetData(part.VertexOffset*stride, vertexData, 0, part.NumVertices, stride);
 
                 // Find minimum and maximum xyz values for this mesh part
-                Vector3 vertPosition = new Vector3();
+                var vertPosition = new Vector3();
 
-                for (int i = 0; i < vertexData.Length; i++)
+                for (var i = 0; i < vertexData.Length; i++)
                 {
                     vertPosition = vertexData[i].Position;
 
@@ -50,7 +54,7 @@ namespace Monocraft.Basics
             meshMax = Vector3.Transform(meshMax, meshTransform);
 
             // Create the bounding box
-            BoundingBox box = new BoundingBox(meshMin, meshMax);
+            var box = new BoundingBox(meshMin, meshMax);
             return box;
         }
     }

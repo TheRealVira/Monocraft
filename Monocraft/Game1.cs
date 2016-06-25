@@ -6,7 +6,7 @@
 // Project: Monocraft
 // Filename: Game1.cs
 // Date - created: 2016.06.18 - 18:57
-// Date - current: 2016.06.24 - 13:09
+// Date - current: 2016.06.25 - 18:38
 
 #endregion
 
@@ -60,7 +60,7 @@ namespace Monocraft
             //graphics.IsFullScreen = true;
             //graphics.ApplyChanges();
 
-            PerlinNoise.Initialise(graphics.GraphicsDevice, Content);
+            PerlinNoise.Initialise(200,graphics.GraphicsDevice, Content);
             SolidWhite = new Texture2D(graphics.GraphicsDevice, 1, 1);
             SolidWhite.SetData(new[] {Color.White});
             TestingModel = Content.Load<Model>("Models/Frames/Frame");
@@ -79,7 +79,8 @@ namespace Monocraft
 
             FrameManager.Initialise(Content, graphics.GraphicsDevice, spriteBatch);
             WorldGeneratorManager.Initialise(Content, graphics.GraphicsDevice, spriteBatch);
-            TestWorld = new World.World(WorldGeneratorManager.WorldGenerators["Default"], graphics.GraphicsDevice, Content,
+            TestWorld = new World.World(WorldGeneratorManager.WorldGenerators["Default"], graphics.GraphicsDevice,
+                Content,
                 DateTime.Now.Millisecond, spriteBatch);
         }
 
@@ -110,11 +111,15 @@ namespace Monocraft
 
             TestWorld.Update(gameTime, graphics, spriteBatch);
 
+            time += .1f;
+
             OldMouseState = NewMouseState;
             OldKeyboardState = NewKeyboardState;
 
             base.Update(gameTime);
         }
+
+        public static float time;
 
         public static bool WasKeyKlicked(Keys key)
         {

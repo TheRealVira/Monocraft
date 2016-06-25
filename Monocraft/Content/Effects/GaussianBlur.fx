@@ -1,4 +1,3 @@
-Texture xTexture0;
 float xPixelWidth;
 float xPixelHeight;
 sampler TextureSampler = sampler_state { texture = <xTexture> ; magfilter = LINEAR; minfilter = LINEAR; mipfilter=LINEAR;
@@ -28,6 +27,13 @@ float4 BlurFunction3x3(float2 input : TEXCOORD) : COLOR0
   return col;
 }
 
+sampler s0;
+
+float4 Test(float2 input : TEXCOORD) : COLOR0
+{
+	return tex2D(s0, input);
+}
+
 //-----------------------------------------------------------------------------
 // Techniques.
 //-----------------------------------------------------------------------------
@@ -36,6 +42,6 @@ technique GaussianBlur
 {
     pass Pass0
     {
-        PixelShader = compile ps_4_0_level_9_1 BlurFunction3x3();
+        PixelShader = compile ps_4_0_level_9_1 Test();
     }
 }

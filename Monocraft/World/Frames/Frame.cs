@@ -6,7 +6,7 @@
 // Project: Monocraft
 // Filename: Frame.cs
 // Date - created: 2016.06.18 - 19:50
-// Date - current: 2016.06.24 - 13:09
+// Date - current: 2016.06.25 - 18:38
 
 #endregion
 
@@ -22,12 +22,12 @@ namespace Monocraft.World
 {
     public class Frame
     {
+        public readonly float Depth;
+        public readonly float Height;
         public readonly bool Translucent;
-        protected Model MyModel;
         //private readonly BoundingBox Dimensions;
         public readonly float Width;
-        public readonly float Height;
-        public readonly float Depth;
+        protected Model MyModel;
 
         protected Texture2D Texture; // Not readonly because I want to be able to animate the texture
 
@@ -36,12 +36,12 @@ namespace Monocraft.World
             Texture = texture;
             MyModel = me;
             Translucent = translucent;
-            
-            if(me==null)return;
 
-            Matrix[] transforms = new Matrix[MyModel.Bones.Count];
+            if (me == null) return;
+
+            var transforms = new Matrix[MyModel.Bones.Count];
             MyModel.CopyAbsoluteBoneTransformsTo(transforms);
-            Matrix meshTransform = transforms[MyModel.Meshes[0].ParentBone.Index];
+            var meshTransform = transforms[MyModel.Meshes[0].ParentBone.Index];
             var dimensions = MyModel.Meshes[0].BuildBoundingBox(meshTransform);
             Width = dimensions.Max.X - dimensions.Min.X;
             Height = dimensions.Max.Y - dimensions.Min.Y;
