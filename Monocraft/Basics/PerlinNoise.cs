@@ -81,7 +81,7 @@ namespace Monocraft.Basics
             //    sp.Draw(cloudStaticMap, new Vector2(), Color.White);
             //}
             //sp.End();
-
+            
             sp.Begin(SpriteSortMode.Deferred, null, null, null, null, Blur);
             //sp.Begin();
 
