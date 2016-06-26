@@ -42,6 +42,6 @@ technique GaussianBlur
 {
     pass Pass0
     {
-        PixelShader = compile ps_4_0_level_9_1 Test();
+        PixelShader = compile ps_4_0_level_9_1 BlurFunction3x3();
     }
 }

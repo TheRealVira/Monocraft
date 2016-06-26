@@ -1,107 +1,61 @@
-float4x4 World;
-float4x4 View;
-float4x4 Projection;
+Texture permTexture;
+float Overcast;
+float2 xCoord;
 
-struct VertexShaderInput
+sampler TextureSampler = sampler_state { texture = <permTexture>; magfilter = LINEAR; minfilter = LINEAR; mipfilter = LINEAR; AddressU = mirror; AddressV = mirror; };
+
+//------- Technique: PerlinNoise --------
+struct PNVertexToPixel
 {
-	float4 Position : POSITION0;
-	float2 texCoord : TEXCOORD0;
+	float4 Position         : POSITION;
+	float2 TextureCoords    : TEXCOORD0;
 };
 
-struct VertexShaderOutput
+struct PNPixelToFrame
 {
-	float4 Position : POSITION0;
-	float2 texCoord : TEXCOORD0;
-	float4 wPosition: TEXCOORD1;
+	float4 Color : COLOR0;
 };
 
-VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
+PNVertexToPixel PerlinVS(float4 inPos : SV_POSITION, float2 inTexCoords : TEXCOORD)
 {
-	VertexShaderOutput output;
+	PNVertexToPixel Output = (PNVertexToPixel)0;
 
-	float4 worldPosition = mul(input.Position, World);
-	float4 viewPosition = mul(worldPosition, View);
-	output.Position = mul(viewPosition, Projection);
-	output.wPosition = mul(input.Position, World);
-	output.texCoord = input.texCoord;
+	Output.Position = inPos;
+	Output.TextureCoords = inTexCoords;
 
-	return output;
+	return Output;
 }
 
-texture permTexture2d;
-texture permGradTexture;
-
-sampler permSampler2d = sampler_state
+PNPixelToFrame PerlinPS(PNVertexToPixel PSIn)
 {
-	texture = <permTexture2d>;
-	AddressU = Wrap;
-	AddressV = Wrap;
-	MAGFILTER = POINT;
-	MINFILTER = POINT;
-	MIPFILTER = NONE;
-};
+	PNPixelToFrame Output = (PNPixelToFrame)0;
 
-sampler permGradSampler = sampler_state
-{
-	texture = <permGradTexture>;
-	AddressU = Wrap;
-	AddressV = Clamp;
-	MAGFILTER = POINT;
-	MINFILTER = POINT;
-	MIPFILTER = NONE;
-};
+	float2 move = float2(1, 1);
 
-float3 fade(float3 t)
-{
-	return t * t * t * (t * (t * 6 – 15) + 10);
-}
+	float4 perlin = tex2D(TextureSampler, float2(PSIn.TextureCoords.x + xCoord.x*move.x, PSIn.TextureCoords.y + xCoord.y*move.y)) / 2;
+	perlin += tex2D(TextureSampler, float2(PSIn.TextureCoords.x * 2 + xCoord.x*move.x, PSIn.TextureCoords.y * 2 + xCoord.y*move.y)) / 4;
+	perlin += tex2D(TextureSampler, float2(PSIn.TextureCoords.x * 4 + xCoord.x*move.x, PSIn.TextureCoords.y * 4 + xCoord.y*move.y)) / 8;
+	perlin += tex2D(TextureSampler, float2(PSIn.TextureCoords.x * 8 + xCoord.x*move.x, PSIn.TextureCoords.y * 8 + xCoord.y*move.y)) / 16;
+	perlin += tex2D(TextureSampler, float2(PSIn.TextureCoords.x * 16 + xCoord.x*move.x, PSIn.TextureCoords.y* 16 + xCoord.y*move.y)) / 32;
+	perlin += tex2D(TextureSampler, float2(PSIn.TextureCoords.x * 32 + xCoord.x*move.x, PSIn.TextureCoords.y * 32 + xCoord.y*move.y)) / 32;
 
-float4 perm2d(float2 p)
-{
-	return tex2D(permSampler2d, p);
-}
+	[loop]
+	for (uint i = 0; i < 4; i++)
+	{
+		perlin.r = sqrt(perlin.r);
+	}
 
-float gradperm(float x, float3 p)
-{
-	return dot(tex1D(permGradSampler, x), p);
-}
+	Output.Color.rgb = perlin.r/2;
+	Output.Color.a = 1;
 
-float inoise(float3 p)
-{
-	float3 P = fmod(floor(p), 256.0);    // FIND UNIT CUBE THAT CONTAINS POINT
-	p -= floor(p);                      // FIND RELATIVE X,Y,Z OF POINT IN CUBE.
-	float3 f = fade(p);                 // COMPUTE FADE CURVES FOR EACH OF X,Y,Z.
-
-	P = P / 256.0;
-	const float one = 1.0 / 256.0;
-
-	// HASH COORDINATES OF THE 8 CUBE CORNERS
-	float4 AA = perm2d(P.xy) + P.z;
-
-	// AND ADD BLENDED RESULTS FROM 8 CORNERS OF CUBE
-	return lerp(lerp(lerp(gradperm(AA.x, p),
-		gradperm(AA.z, p + float3(-1, 0, 0)), f.x),
-		lerp(gradperm(AA.y, p + float3(0, -1, 0)),
-			gradperm(AA.w, p + float3(-1, -1, 0)), f.x), f.y),
-
-		lerp(lerp(gradperm(AA.x + one, p + float3(0, 0, -1)),
-			gradperm(AA.z + one, p + float3(-1, 0, -1)), f.x),
-			lerp(gradperm(AA.y + one, p + float3(0, -1, -1)),
-				gradperm(AA.w + one, p + float3(-1, -1, -1)), f.x), f.y), f.z);
-}
-
-float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
-{
-	float3 p = input.wPosition;
-	float inz = inoise(p)*0.5 + 0.5;
-	return float4(inz,inz,inz,1);
+	return Output;
 }
 
 technique PerlinNoise
 {
-	pass Pass1
+	pass Pass0
 	{
-		VertexShader = compile vs_4_0_level_9_1 VertexShaderFunction();
-		PixelShader = compile ps_4_0_level_9_1 PixelShaderFunction();
+		VertexShader = compile vs_4_0_level_9_1 PerlinVS();
+		PixelShader = compile ps_4_0_level_9_1 PerlinPS();
 	}
 }

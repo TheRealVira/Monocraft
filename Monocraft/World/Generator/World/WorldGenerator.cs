@@ -94,18 +94,24 @@ namespace Monocraft.World.Generator.World
         private void PerlinNoiseGenration(Vector3 position, VisFrame[,,] frames, WorldTile[] neighbours,
             GraphicsDevice device, SpriteBatch sp)
         {
-            var grid = new Color[WorldTile.WORLD_TILE_WIDTH*WorldTile.WORLD_TILE_WIDTH*PerlinNoise.RESOLUTION];
             //PerlinNoise.CreateStaticMap(WorldTile.WORLD_TILE_WIDTH, device);
-            PerlinNoise.GeneratePerlinNoiseGPU(position,Matrix.CreateLookAt(Vector3.Zero, Vector3.Zero, Vector3.Up), Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f), device.Viewport.AspectRatio,
-                0.1f, 1000.0f),  device, sp).GetData(grid);
+            var test=PerlinNoise.GeneratePerlinNoiseGPU(new Vector3(position.X / 1000f, position.Y, position.Z / 1000f), device, sp);
+            var grid = new Color[test.Width*test.Height];
+            test.GetData(grid);
 
             for (var x = 0; x < frames.GetLength(0); x++)
             {
                 for (var z = 0; z < frames.GetLength(2); z++)
                 {
-                    var highest = grid[x*z*PerlinNoise.RESOLUTION].R < _minHeight
+                    var highest = grid[x*z].R*.5 < _minHeight
                         ? _minHeight
-                        : grid[x*z*PerlinNoise.RESOLUTION].R;
+                        : grid[x*z].R * .5;
+
+                    if (highest > _maxHeight)
+                    {
+                        highest = _maxHeight;
+                    }
+
                     var currentIndex = 0;
                     var counter = 0;
 

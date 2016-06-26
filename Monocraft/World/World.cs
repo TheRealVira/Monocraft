@@ -229,22 +229,26 @@ namespace Monocraft.World
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice device)
         {
             if (Game1.STOPP_WORKING) return; // Just, so we dont' run into some disposed objects
-            
-            var test = PerlinNoise.GeneratePerlinNoiseGPU(new Vector3(Game1.time, 0, 0),this._currentPlayer.Cam.View,this._currentPlayer.Cam.Projektion,device,spriteBatch);
 
-            spriteBatch.Begin();
-            spriteBatch.Draw(test, null, new Rectangle(0, 0, device.Adapter.CurrentDisplayMode.Width, device.Adapter.CurrentDisplayMode.Height));
-            spriteBatch.End();
+            //var test = PerlinNoise.GeneratePerlinNoiseGPU(new Vector3((CurrentWorldTile.Position.X)/1000f, 0, 0), device, spriteBatch);
+            //var test2 = PerlinNoise.GeneratePerlinNoiseGPU(new Vector3((CurrentWorldTile.Position.X+WorldTile.WORLD_TILE_WIDTH)/1000f, 0, 0), device, spriteBatch);
 
-            //device.BlendState = BlendState.Opaque;
-            //device.DepthStencilState = DepthStencilState.Default;
-            //device.RasterizerState = RasterizerState.CullCounterClockwise;
-            //device.SamplerStates[0] = SamplerState.LinearWrap;
-            //CurrentWorldTile.Draw(device, _currentPlayer.Cam.Projektion, _currentPlayer.Cam.View,
-            //    new BoundingFrustum(_currentPlayer.Cam.View*(_currentPlayer.Cam.Projektion*Matrix.CreateScale(1))));
+            //spriteBatch.Begin();
+            //spriteBatch.Draw(test,null, new Rectangle(0,0,device.Adapter.CurrentDisplayMode.Width,device.Adapter.CurrentDisplayMode.Height));
+            //spriteBatch.Draw(test2, null, new Rectangle(WorldTile.WORLD_TILE_WIDTH, 0, device.Adapter.CurrentDisplayMode.Width, device.Adapter.CurrentDisplayMode.Height));
+            //spriteBatch.End();
+            //test.Dispose();
+            //test2.Dispose();
 
-            ////device.RasterizerState = new RasterizerState() { FillMode = FillMode.WireFrame, CullMode = CullMode.None};
-            //_currentPlayer.Draw(spriteBatch, device);
+            device.BlendState = BlendState.Opaque;
+            device.DepthStencilState = DepthStencilState.Default;
+            device.RasterizerState = RasterizerState.CullCounterClockwise;
+            device.SamplerStates[0] = SamplerState.LinearWrap;
+            CurrentWorldTile.Draw(device, _currentPlayer.Cam.Projektion, _currentPlayer.Cam.View,
+                new BoundingFrustum(_currentPlayer.Cam.View * (_currentPlayer.Cam.Projektion * Matrix.CreateScale(.5f))));
+
+            //device.RasterizerState = new RasterizerState() { FillMode = FillMode.WireFrame, CullMode = CullMode.None};
+            _currentPlayer.Draw(spriteBatch, device);
         }
 
         /// <summary>

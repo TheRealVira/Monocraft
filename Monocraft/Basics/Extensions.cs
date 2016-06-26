@@ -12,6 +12,7 @@
 
 #region Usings
 
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -56,6 +57,16 @@ namespace Monocraft.Basics
             // Create the bounding box
             var box = new BoundingBox(meshMin, meshMax);
             return box;
+        }
+
+        public static Texture2D CloneRenderTarget(this RenderTarget2D target, GraphicsDevice device)
+        {
+            var clone = new Texture2D(device, target.Width, target.Height);
+            var tempArray = new Color[target.Width*target.Height];
+            target.GetData(tempArray);
+            clone.SetData(tempArray);
+
+            return clone;
         }
     }
 }

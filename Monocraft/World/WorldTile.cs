@@ -90,7 +90,6 @@ namespace Monocraft.World
             }
 
 #if (DEBUG)
-            var vase = new BasicEffect(device);
             var corners = Trigger.GetCorners();
             var primitiveList = new VertexPositionColor[corners.Length];
 
@@ -102,14 +101,14 @@ namespace Monocraft.World
 
             /* Set your own effect parameters here */
 
-            vase.World = Matrix.Identity;
-            vase.View = view;
-            vase.Projection = projection;
-            vase.VertexColorEnabled = true;
-            vase.TextureEnabled = false;
+            Game1.NormalEffect.World = Matrix.Identity;
+            Game1.NormalEffect.View = view;
+            Game1.NormalEffect.Projection = projection;
+            Game1.NormalEffect.VertexColorEnabled = true;
+            Game1.NormalEffect.TextureEnabled = false;
 
             // Draw the box with a LineList
-            foreach (var pass in vase.CurrentTechnique.Passes)
+            foreach (var pass in Game1.NormalEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 device.DrawUserIndexedPrimitives(
@@ -123,7 +122,7 @@ namespace Monocraft.World
             {
                 if (Neighbours[i] != null)
                 {
-                    Neighbours[i].Draw(device, projection, view, cameraFrustum, (byte) (deepness - 1));
+                    Neighbours[i].Draw(device, projection, view, cameraFrustum, (byte)(deepness - 1));
                 }
             }
         }

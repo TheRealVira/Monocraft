@@ -41,7 +41,7 @@ namespace Monocraft.Player
             cameraSpeed = speed;
 
             //Setup projektion Matrix
-            Projektion = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f), device.Viewport.AspectRatio,
+            Projektion = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), device.Viewport.AspectRatio,
                 0.1f, 1000.0f);
 
             mouseRotationBuffer = new Vector3(0, 0, 0);

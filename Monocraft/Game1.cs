@@ -47,6 +47,8 @@ namespace Monocraft
         public static Model TestingModel { get; set; }
         public static bool STOPP_WORKING { get; private set; }
 
+        public static BasicEffect NormalEffect;
+
         /// <summary>
         ///     Allows the game to perform any initialization it needs to before starting to run.
         ///     This is where it can query for any required services and load any non-graphic
@@ -55,11 +57,19 @@ namespace Monocraft
         /// </summary>
         protected override void Initialize()
         {
-            //graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
-            //graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
-            //graphics.IsFullScreen = true;
-            //graphics.ApplyChanges();
+#if (DEBUG)
+            graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
+            graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
+            graphics.IsFullScreen = true;
+            graphics.ApplyChanges();
+#else
+            graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
+            graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
+            graphics.IsFullScreen = true;
+            graphics.ApplyChanges();
+#endif
 
+            NormalEffect =new BasicEffect(graphics.GraphicsDevice);
             PerlinNoise.Initialise(200,graphics.GraphicsDevice, Content);
             SolidWhite = new Texture2D(graphics.GraphicsDevice, 1, 1);
             SolidWhite.SetData(new[] {Color.White});
@@ -111,10 +121,10 @@ namespace Monocraft
 
             TestWorld.Update(gameTime, graphics, spriteBatch);
 
-            time += .1f;
-
             OldMouseState = NewMouseState;
             OldKeyboardState = NewKeyboardState;
+
+            time++;
 
             base.Update(gameTime);
         }
