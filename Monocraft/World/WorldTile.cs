@@ -40,6 +40,7 @@ namespace Monocraft.World
         public readonly WorldTile[] Neighbours;
         public readonly Vector3 Position;
         private BoundingBox Trigger;
+        private bool IsDrawing;
 
         /// <param name="neighbours">
         ///     Arrayinformation:
@@ -68,8 +69,10 @@ namespace Monocraft.World
         /// <param name="cameraFrustum"></param>
         /// <param name="deepness"></param>
         public void Draw(GraphicsDevice device, Matrix projection, Matrix view, BoundingFrustum cameraFrustum,
-            byte deepness = 1)
+            byte deepness = 3)
         {
+            IsDrawing = true;
+
             device.RasterizerState = new RasterizerState {FillMode = FillMode.Solid};
             for (var x = 0; x < Frames.GetLength(0); x++)
             {
@@ -116,15 +119,21 @@ namespace Monocraft.World
                     BBoxIndices, 0, 12);
             }
 #endif
-            if (deepness == 0) return;
+            if (deepness == 0)
+            {
+                IsDrawing = false;
+                return;
+            }
 
             for (var i = 0; i < Neighbours.Length; i++)
             {
-                if (Neighbours[i] != null)
+                if (Neighbours[i] != null&&!Neighbours[i].IsDrawing) // Don't double draw worldtiles
                 {
                     Neighbours[i].Draw(device, projection, view, cameraFrustum, (byte) (deepness - 1));
                 }
             }
+
+            IsDrawing = false;
         }
 
         /// <summary>

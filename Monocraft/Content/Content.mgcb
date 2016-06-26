@@ -89,6 +89,11 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:Effects/PerlinNoise.fx
+
+#begin Effects/GaussianBlur.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
 /build:Effects/GaussianBlur.fx
 
 #begin Textures/Frames/grass.jpg
@@ -112,4 +117,15 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:TextureFormat=Color
 /build:Textures/Frames/9-dead-leaf-texture.jpg
+
+#begin Textures/Frames/Border.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Textures/Frames/Border.png
 
