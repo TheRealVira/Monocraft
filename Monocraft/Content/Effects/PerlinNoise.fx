@@ -1,8 +1,14 @@
-Texture permTexture;
+Texture2D permTexture;
 float Overcast;
 float2 xCoord;
 
-sampler TextureSampler = sampler_state { texture = <permTexture>; magfilter = LINEAR; minfilter = LINEAR; mipfilter = LINEAR; AddressU = mirror; AddressV = mirror; };
+SamplerState TextureSampler
+{
+	Texture = <permTexture>;
+	Filter = Linear;
+	AddressU = Wrap;
+	AddressV = Wrap;
+};
 
 //------- Technique: PerlinNoise --------
 struct PNVertexToPixel
@@ -13,7 +19,7 @@ struct PNVertexToPixel
 
 struct PNPixelToFrame
 {
-	float4 Color : COLOR0;
+	float4 Color : SV_Target;
 };
 
 PNVertexToPixel PerlinVS(float4 inPos : SV_POSITION, float2 inTexCoords : TEXCOORD)
@@ -32,12 +38,12 @@ PNPixelToFrame PerlinPS(PNVertexToPixel PSIn)
 
 	float2 move = float2(1, 1);
 
-	float4 perlin = tex2D(TextureSampler, float2(PSIn.TextureCoords.x + xCoord.x*move.x, PSIn.TextureCoords.y + xCoord.y*move.y)) / 2;
-	perlin += tex2D(TextureSampler, float2(PSIn.TextureCoords.x * 2 + xCoord.x*move.x, PSIn.TextureCoords.y * 2 + xCoord.y*move.y)) / 4;
-	perlin += tex2D(TextureSampler, float2(PSIn.TextureCoords.x * 4 + xCoord.x*move.x, PSIn.TextureCoords.y * 4 + xCoord.y*move.y)) / 8;
-	perlin += tex2D(TextureSampler, float2(PSIn.TextureCoords.x * 8 + xCoord.x*move.x, PSIn.TextureCoords.y * 8 + xCoord.y*move.y)) / 16;
-	perlin += tex2D(TextureSampler, float2(PSIn.TextureCoords.x * 16 + xCoord.x*move.x, PSIn.TextureCoords.y* 16 + xCoord.y*move.y)) / 32;
-	perlin += tex2D(TextureSampler, float2(PSIn.TextureCoords.x * 32 + xCoord.x*move.x, PSIn.TextureCoords.y * 32 + xCoord.y*move.y)) / 32;
+	float4 perlin = permTexture.Sample(TextureSampler, float2(PSIn.TextureCoords.x + xCoord.x*move.x, PSIn.TextureCoords.y + xCoord.y*move.y)) / 2;
+	perlin += permTexture.Sample(TextureSampler, float2(PSIn.TextureCoords.x * 2 + xCoord.x*move.x, PSIn.TextureCoords.y * 2 + xCoord.y*move.y)) / 4;
+	perlin += permTexture.Sample(TextureSampler, float2(PSIn.TextureCoords.x * 4 + xCoord.x*move.x, PSIn.TextureCoords.y * 4 + xCoord.y*move.y)) / 8;
+	perlin += permTexture.Sample(TextureSampler, float2(PSIn.TextureCoords.x * 8 + xCoord.x*move.x, PSIn.TextureCoords.y * 8 + xCoord.y*move.y)) / 16;
+	perlin += permTexture.Sample(TextureSampler, float2(PSIn.TextureCoords.x * 16 + xCoord.x*move.x, PSIn.TextureCoords.y* 16 + xCoord.y*move.y)) / 32;
+	perlin += permTexture.Sample(TextureSampler, float2(PSIn.TextureCoords.x * 32 + xCoord.x*move.x, PSIn.TextureCoords.y * 32 + xCoord.y*move.y)) / 32;
 
 	[loop]
 	for (uint i = 0; i < 4; i++)
@@ -55,7 +61,7 @@ technique PerlinNoise
 {
 	pass Pass0
 	{
-		VertexShader = compile vs_4_0_level_9_1 PerlinVS();
-		PixelShader = compile ps_4_0_level_9_1 PerlinPS();
+		VertexShader = compile vs_3_0 PerlinVS();
+		PixelShader = compile ps_3_0 PerlinPS();
 	}
 }

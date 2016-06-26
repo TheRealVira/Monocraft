@@ -5,8 +5,8 @@
 // Solution: Monocraft
 // Project: Monocraft
 // Filename: Frame.cs
-// Date - created: 2016.06.18 - 19:50
-// Date - current: 2016.06.26 - 11:08
+// Date - created: 2016.06.26 - 19:34
+// Date - current: 2016.06.26 - 20:15
 
 #endregion
 
@@ -18,7 +18,7 @@ using Monocraft.Basics;
 
 #endregion
 
-namespace Monocraft.World
+namespace Monocraft.World.Frames
 {
     public class Frame
     {

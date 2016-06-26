@@ -5,8 +5,8 @@
 // Solution: Monocraft
 // Project: Monocraft
 // Filename: WorldTile.cs
-// Date - created: 2016.06.19 - 11:23
-// Date - current: 2016.06.26 - 11:08
+// Date - created: 2016.06.26 - 19:34
+// Date - current: 2016.06.26 - 20:15
 
 #endregion
 
@@ -39,8 +39,8 @@ namespace Monocraft.World
         public readonly VisFrame[,,] Frames;
         public readonly WorldTile[] Neighbours;
         public readonly Vector3 Position;
-        private BoundingBox Trigger;
         private bool IsDrawing;
+        private BoundingBox Trigger;
 
         /// <param name="neighbours">
         ///     Arrayinformation:
@@ -127,7 +127,7 @@ namespace Monocraft.World
 
             for (var i = 0; i < Neighbours.Length; i++)
             {
-                if (Neighbours[i] != null&&!Neighbours[i].IsDrawing) // Don't double draw worldtiles
+                if (Neighbours[i] != null && !Neighbours[i].IsDrawing) // Don't double draw worldtiles
                 {
                     Neighbours[i].Draw(device, projection, view, cameraFrustum, (byte) (deepness - 1));
                 }

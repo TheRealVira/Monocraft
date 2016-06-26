@@ -5,8 +5,8 @@
 // Solution: Monocraft
 // Project: Monocraft
 // Filename: AssemblyInfo.cs
-// Date - created: 2016.06.18 - 18:57
-// Date - current: 2016.06.26 - 11:08
+// Date - created: 2016.06.26 - 19:21
+// Date - current: 2016.06.26 - 20:15
 
 #endregion
 
@@ -21,8 +21,8 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("Monocraft")]
-[assembly: AssemblyProduct("Monocraft")]
+[assembly: AssemblyTitle("Game1")]
+[assembly: AssemblyProduct("Game1")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("")]
@@ -38,7 +38,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
-[assembly: Guid("ad3ba6ae-78dc-44a2-9f65-72cc3d7f10b9")]
+[assembly: Guid("ac8ab56a-9120-412f-b38f-d9a4d09c5526")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -51,5 +51,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("3.4.0.456")]
-[assembly: AssemblyFileVersion("3.4.0.456")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

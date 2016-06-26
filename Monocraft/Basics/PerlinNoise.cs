@@ -5,8 +5,8 @@
 // Solution: Monocraft
 // Project: Monocraft
 // Filename: PerlinNoise.cs
-// Date - created: 2016.06.19 - 13:20
-// Date - current: 2016.06.26 - 11:08
+// Date - created: 2016.06.26 - 19:34
+// Date - current: 2016.06.26 - 20:15
 
 #endregion
 
@@ -29,7 +29,6 @@ namespace Monocraft.Basics
         //private static RenderTarget2D temp1;
         private static Texture2D permTexture;
         private static Effect PerlinEffect;
-        private static Effect Blur;
         private static Random rand;
         private static VertexPositionTexture[] fullScreenVertices;
         private static readonly short[] IndexData = {0, 1, 2, 2, 3, 0};
@@ -40,9 +39,6 @@ namespace Monocraft.Basics
 
             PerlinEffect = content.Load<Effect>("Effects/PerlinNoise");
             PerlinEffect.CurrentTechnique = PerlinEffect.Techniques["PerlinNoise"];
-
-            Blur = content.Load<Effect>("Effects/GaussianBlur");
-            Blur.CurrentTechnique = Blur.Techniques["GaussianBlur"];
 
             fullScreenVertices = SetUpFullscreenVertices();
 
@@ -77,8 +73,8 @@ namespace Monocraft.Basics
             device.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
             sp.Begin(SpriteSortMode.Deferred, null, null, null, null, PerlinEffect);
 
-            PerlinEffect.Parameters["permTexture"].SetValue(permTexture);
-            PerlinEffect.Parameters["Overcast"].SetValue(1.1f);
+            PerlinEffect.Parameters["TextureSampler+permTexture"].SetValue(permTexture);
+            //PerlinEffect.Parameters["Overcast"].SetValue(1.1f);
             PerlinEffect.Parameters["xCoord"].SetValue(new Vector2(position.X, position.Z));
             foreach (var pass in PerlinEffect.CurrentTechnique.Passes)
             {

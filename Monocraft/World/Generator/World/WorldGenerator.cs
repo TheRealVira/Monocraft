@@ -5,8 +5,8 @@
 // Solution: Monocraft
 // Project: Monocraft
 // Filename: WorldGenerator.cs
-// Date - created: 2016.06.22 - 09:55
-// Date - current: 2016.06.26 - 11:08
+// Date - created: 2016.06.26 - 19:34
+// Date - current: 2016.06.26 - 20:15
 
 #endregion
 
@@ -207,9 +207,9 @@ namespace Monocraft.World.Generator.World
             }
         }
 
-        //private void ApplyVis(VisFrame[,,] Frames, List<WorldTile> neighbours)
+        //}
         //{
 
-        //}
+        //private void ApplyVis(VisFrame[,,] Frames, List<WorldTile> neighbours)
     }
 }
