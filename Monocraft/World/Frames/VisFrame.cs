@@ -6,7 +6,7 @@
 // Project: Monocraft
 // Filename: VisFrame.cs
 // Date - created: 2016.06.23 - 13:11
-// Date - current: 2016.06.25 - 18:38
+// Date - current: 2016.06.26 - 11:08
 
 #endregion
 

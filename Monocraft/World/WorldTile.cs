@@ -6,7 +6,7 @@
 // Project: Monocraft
 // Filename: WorldTile.cs
 // Date - created: 2016.06.19 - 11:23
-// Date - current: 2016.06.25 - 18:38
+// Date - current: 2016.06.26 - 11:08
 
 #endregion
 
@@ -68,7 +68,7 @@ namespace Monocraft.World
         /// <param name="cameraFrustum"></param>
         /// <param name="deepness"></param>
         public void Draw(GraphicsDevice device, Matrix projection, Matrix view, BoundingFrustum cameraFrustum,
-            byte deepness = 2)
+            byte deepness = 1)
         {
             device.RasterizerState = new RasterizerState {FillMode = FillMode.Solid};
             for (var x = 0; x < Frames.GetLength(0); x++)
@@ -122,7 +122,7 @@ namespace Monocraft.World
             {
                 if (Neighbours[i] != null)
                 {
-                    Neighbours[i].Draw(device, projection, view, cameraFrustum, (byte)(deepness - 1));
+                    Neighbours[i].Draw(device, projection, view, cameraFrustum, (byte) (deepness - 1));
                 }
             }
         }

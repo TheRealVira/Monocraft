@@ -6,7 +6,7 @@
 // Project: Monocraft
 // Filename: WorldGenerator.cs
 // Date - created: 2016.06.22 - 09:55
-// Date - current: 2016.06.25 - 18:38
+// Date - current: 2016.06.26 - 11:08
 
 #endregion
 
@@ -95,7 +95,8 @@ namespace Monocraft.World.Generator.World
             GraphicsDevice device, SpriteBatch sp)
         {
             //PerlinNoise.CreateStaticMap(WorldTile.WORLD_TILE_WIDTH, device);
-            var test=PerlinNoise.GeneratePerlinNoiseGPU(new Vector3(position.X / 1000f, position.Y, position.Z / 1000f), device, sp);
+            var test = PerlinNoise.GeneratePerlinNoiseGPU(new Vector3(position.X/1000f, position.Y, position.Z/1000f),
+                device, sp);
             var grid = new Color[test.Width*test.Height];
             test.GetData(grid);
 
@@ -105,7 +106,7 @@ namespace Monocraft.World.Generator.World
                 {
                     var highest = grid[x*z].R*.5 < _minHeight
                         ? _minHeight
-                        : grid[x*z].R * .5;
+                        : grid[x*z].R*.5;
 
                     if (highest > _maxHeight)
                     {
@@ -206,9 +207,9 @@ namespace Monocraft.World.Generator.World
             }
         }
 
-        //}
+        //private void ApplyVis(VisFrame[,,] Frames, List<WorldTile> neighbours)
         //{
 
-        //private void ApplyVis(VisFrame[,,] Frames, List<WorldTile> neighbours)
+        //}
     }
 }

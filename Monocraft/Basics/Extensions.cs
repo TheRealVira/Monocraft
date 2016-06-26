@@ -6,13 +6,12 @@
 // Project: Monocraft
 // Filename: Extensions.cs
 // Date - created: 2016.06.22 - 10:56
-// Date - current: 2016.06.25 - 18:38
+// Date - current: 2016.06.26 - 11:08
 
 #endregion
 
 #region Usings
 
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

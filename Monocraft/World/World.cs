@@ -6,7 +6,7 @@
 // Project: Monocraft
 // Filename: World.cs
 // Date - created: 2016.06.18 - 23:28
-// Date - current: 2016.06.25 - 18:38
+// Date - current: 2016.06.26 - 11:08
 
 #endregion
 
@@ -16,7 +16,6 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Monocraft.Basics;
 using Monocraft.World.Generator.World;
 
 #endregion
@@ -245,7 +244,7 @@ namespace Monocraft.World
             device.RasterizerState = RasterizerState.CullCounterClockwise;
             device.SamplerStates[0] = SamplerState.LinearWrap;
             CurrentWorldTile.Draw(device, _currentPlayer.Cam.Projektion, _currentPlayer.Cam.View,
-                new BoundingFrustum(_currentPlayer.Cam.View * (_currentPlayer.Cam.Projektion * Matrix.CreateScale(.5f))));
+                new BoundingFrustum(_currentPlayer.Cam.View*(_currentPlayer.Cam.Projektion*Matrix.CreateScale(.5f))));
 
             //device.RasterizerState = new RasterizerState() { FillMode = FillMode.WireFrame, CullMode = CullMode.None};
             _currentPlayer.Draw(spriteBatch, device);
